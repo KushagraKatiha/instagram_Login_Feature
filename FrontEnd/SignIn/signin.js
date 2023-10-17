@@ -1,12 +1,12 @@
 const formSubmit = document.getElementById("submit")
 
     formSubmit.addEventListener("click",(event) => {
-    //   event.preventDefault();
+      event.preventDefault();
       
-      const userName = document.getElementById("username").value
+      const userEmail = document.getElementById("email").value
       const userPassword = document.getElementById("password").value
       const userData = {
-        username:userName,
+        email:userEmail,
         password:userPassword
       }
 
@@ -14,20 +14,18 @@ const formSubmit = document.getElementById("submit")
 
     })
 
-
-    const loginUser = async (payload) => {
+async function loginUser (payload) {
       try {
-
           const resp = await fetch("http://localhost:8000/signin",{
             method:"POST",
             redirect: 'follow',
-            headers:{"Content-Type": "multipart/form-data"},
+            headers:{"Content-Type": "application/json"},
             body:JSON.stringify(payload)
           })
 
           const data = await resp.json();
-          console.log(data)
-        //   window.location.href="http://localhost:5500/client/index.html";
+          console.log(data);
+          window.location.href="../UserInfo/index.html";
         
       } catch (error) {
         console.log(error.message)

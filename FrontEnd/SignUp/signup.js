@@ -1,7 +1,7 @@
 const signUp = document.getElementById("signup-btn")
 
 signUp.addEventListener("click", (event)=>{
-    // event.preventDefault();
+    event.preventDefault();
 
     const name = document.getElementById("name").value
     const username = document.getElementById("username").value
@@ -34,6 +34,7 @@ async function register(userData) {
     try{
         const res = await fetch("http://localhost:8000/signup",{
             method:"POST",
+            credentials: "include",
             headers:{"content-type":"application/json"},
             body:JSON.stringify(userData)
         })
