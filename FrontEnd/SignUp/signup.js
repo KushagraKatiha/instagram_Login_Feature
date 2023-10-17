@@ -1,6 +1,8 @@
 const signUp = document.getElementById("signup-btn")
 
-signUp.addEventListener("click", ()=>{
+signUp.addEventListener("click", (event)=>{
+    // event.preventDefault();
+
     const name = document.getElementById("name").value
     const username = document.getElementById("username").value
     const email = document.getElementById("email").value
@@ -15,12 +17,12 @@ if(!name || !username || !email || !password || !confirmPassword || !bio){
 }
 
 const userData ={
-    name,
-    username,
-    email,
-    password,
-    confirmPassword,
-    bio
+    name : name,
+    username : username,
+    email : email,
+    password : password,
+    confirmPassword : confirmPassword ,
+    bio : bio
 }
 
 register(userData)
@@ -28,18 +30,14 @@ register(userData)
 })
 
 
-const register = async (userData) => {
+async function register(userData) {
     try{
         const res = await fetch("http://localhost:8000/signup",{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/javascript"
-            },
-            body: JSON.stringify(userData)
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify(userData)
         })
 
-        const data = await res.json();
-        console.log(data)
         window.location.href = "../SignIn/signin.html"
     }catch(error){
         console.log(error.message);

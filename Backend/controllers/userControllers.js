@@ -9,6 +9,7 @@ exports.home = (req, res) => {
 exports.signUp = async (req, res) => {
   try {
     const { name, username, email, password, confirmPassword, bio } = req.body;
+    console.log("Data Received");
     console.log(name, username, email, password, confirmPassword, bio);
     // Check if all the fields are filled
     if (!name || !username || !email || !password || !confirmPassword || !bio) {
