@@ -16,6 +16,9 @@ const auth = (req, res, next) => {
             id: payload.id,
             email: payload.email
         }
+
+        
+        next()
     } catch (error) {
         res.status(400).json({
             success: false,
@@ -23,7 +26,6 @@ const auth = (req, res, next) => {
         })
     }
 
-    next()
 }
 
 

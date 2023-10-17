@@ -59,8 +59,9 @@ exports.signUp = async (req, res) => {
 };
 
 exports.signIn = async (req, res) => {
+  const {email, password} = req.body;
   try {
-    const {email, password} = req.body;
+    console.log(email, password);
 
     if (!email || !password) {
       throw new Error(`All the fields are required`);
@@ -102,21 +103,18 @@ exports.signIn = async (req, res) => {
 };
 
 exports.getUser = async (req, res) =>{
-    let userId = req.client.id;
+    let userEmail = req.client.email;
 
     try{
-      const user = await User.findById(userId);
+      const user = await User.findById({userEmail});
 
-      res.status(200).json({
-        success: true,
+      res.status(200).send({
+        success: "true",
         userData: user
       })
       
     }catch(error){
-      res.status(400).json({
-        success: false,
-        message: error.message
-      })
+      res.status(501).send({message: error.message})
     }
 }
 
