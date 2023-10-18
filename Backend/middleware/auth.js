@@ -3,10 +3,9 @@ const JWT = require('jsonwebtoken')
 const auth = (req, res, next) => {
     // verify token 
     // inject user info    
+    const token = (req.cookies && req.cookies.token) || null;
+    console.log(token);
     try {
-
-        const token = (req.cookies && req.cookies.token) || null;
-
         if(!token){
             throw new Error(`Not a valid user !!`)
         }
@@ -17,6 +16,7 @@ const auth = (req, res, next) => {
             email: payload.email
         }
 
+        console.log(req.client);
         
         next()
     } catch (error) {

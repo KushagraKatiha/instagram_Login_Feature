@@ -7,9 +7,9 @@ const cookieParser = require('cookie-parser')
 
 
 const app = express()
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use(cors())
 dbConnection()
 app.use(cookieParser())
 app.use("/", router)

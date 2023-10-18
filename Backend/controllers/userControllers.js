@@ -103,10 +103,10 @@ exports.signIn = async (req, res) => {
 };
 
 exports.getUser = async (req, res) =>{
-    let userEmail = req.client.email;
+    let {id,email} = req.client;
 
     try{
-      const user = await User.findById({userEmail});
+      const user = await User.findById({email});
 
       res.status(200).send({
         success: "true",

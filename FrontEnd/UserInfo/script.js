@@ -1,9 +1,9 @@
-const userData = async() =>{
+async function userData(){
+    const resp = await fetch("http://localhost:8000/getuser",{
+        method:"GET",
+    });
+    console.log(resp);
     try {
-     const resp = await fetch("http://localhost:8000/getuser",{
-         method:"GET",
-         credentials:"include"
-     });
      if(resp.status!==200){window.location.href="../SignIn/signin.html"}
      const {data} = await resp.json();
      const userName = document.getElementsById("username")
