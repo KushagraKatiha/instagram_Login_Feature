@@ -1,23 +1,22 @@
 const JWT = require('jsonwebtoken')
 
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
     // verify token 
     // inject user info    
-    const token = (req.cookies && req.cookies.token) || null;
-    console.log(token);
+    const token = req.cookies.token || null;
+    // console.log(token);
     try {
         if(!token){
             throw new Error(`Not a valid user !!`)
         }
 
         const payload = JWT.verify(token, process.env.SECRET);
-        req.client = {
+        // console.log(payload);
+         req.client = {
             id: payload.id,
-            email: payload.email
+            username: payload.username
         }
 
-        console.log(req.client);
-        
         next()
     } catch (error) {
         res.status(400).json({

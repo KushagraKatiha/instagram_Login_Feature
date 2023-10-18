@@ -9,8 +9,8 @@ exports.home = (req, res) => {
 exports.signUp = async (req, res) => {
   try {
     const { name, username, email, password, confirmPassword, bio } = req.body;
-    console.log("Data Received");
-    console.log(name, username, email, password, confirmPassword, bio);
+    // console.log("Data Received");
+    // console.log(name, username, email, password, confirmPassword, bio);
     // Check if all the fields are filled
     if (!name || !username || !email || !password || !confirmPassword || !bio) {
       throw new Error(`All the fields are required`);
@@ -59,15 +59,15 @@ exports.signUp = async (req, res) => {
 };
 
 exports.signIn = async (req, res) => {
-  const {email, password} = req.body;
+  const {username, password} = req.body;
   try {
-    console.log(email, password);
+    // console.log(username, password);
 
-    if (!email || !password) {
+    if (!username || !password) {
       throw new Error(`All the fields are required`);
     }
 
-    let userDetails = await User.findOne({email}).select('+password')
+    let userDetails = await User.findOne({username}).select('+password')
 
     if(!userDetails){
         throw new Error(`No user registered with given details`)
@@ -78,16 +78,16 @@ exports.signIn = async (req, res) => {
         throw new Error(`Password mismatched`)
     }
 
-
-    const jsonToken = userDetails.jwtToken();
     userDetails.password = undefined;
+
+    const token = userDetails.jwtToken();
 
     const cookieOption = {
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true
     }
 
-    res.cookie("token", jsonToken, cookieOption)
+    res.cookie("token", token, cookieOption)
 
     res.status(200).json({
         success: true,
@@ -103,18 +103,20 @@ exports.signIn = async (req, res) => {
 };
 
 exports.getUser = async (req, res) =>{
-    let {id,email} = req.client;
-
+    // console.log("Client from get user=>",req.client);
+    let username = req.client.username;
+    // console.log(`Username: ${username}`);
     try{
-      const user = await User.findById({email});
+      const user = await User.findOne({username});
 
       res.status(200).send({
         success: "true",
         userData: user
       })
+      console.log(user);
       
     }catch(error){
-      res.status(501).send({message: error.message})
+      res.status(400).send({message: error.message})
     }
 }
 
@@ -126,7 +128,7 @@ exports.signOut = (req, res) =>{
         httpOnly: true
       }
       res.cookie("token", null, cookieOption)
-      res.status("200").json({
+      res.status(200).json({
         success: true,
         message: "User Logged Out Successfully"
       })

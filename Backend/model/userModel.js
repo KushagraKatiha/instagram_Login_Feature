@@ -44,11 +44,11 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods = {
     jwtToken(){
-        return  (JWT.sign(
-            {id: this._id, email: this.email},
+        return  JWT.sign(
+            {id: this._id, username: this.username},
             process.env.SECRET,
             {expiresIn: '24h'}
-        ))
+        )
 
     }
 }

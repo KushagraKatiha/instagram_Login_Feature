@@ -1,20 +1,22 @@
 async function userData(){
     const resp = await fetch("http://localhost:8000/getuser",{
         method:"GET",
+        credentials: "include"
     });
-    console.log(resp);
+    const data = await resp.json();
+    // console.log(data);
     try {
-     if(resp.status!==200){window.location.href="../SignIn/signin.html"}
-     const {data} = await resp.json();
-     const userName = document.getElementsById("username")
-     const userEmail = document.getElementsById("useremail")
-     const userBio = document.getElementsById("userbio")
-     userName.innerText=data.username;
-     userEmail.innerText=data.email;
-     userBio.innerText=data.bio
+     if(resp.status!==200)
+     {window.location.href="http://localhost:5502/FrontEnd/SignIn/signin.html"}
+     const userName = document.getElementById("username")
+     const userEmail = document.getElementById("email")
+     const userBio = document.getElementById("userbio")
+     userName.innerText=data.userData.username;
+     userEmail.innerText=data.userData.email;
+     userBio.innerText=data.userData.bio;
     } catch (error) {
          console.log(error.message)
-         window.location.href="../SignIn/signin.html"
+         window.location.href="http://localhost:5502/FrontEnd/SignIn/signin.html"
     }
  } 
 

@@ -39,7 +39,7 @@ async function register(userData) {
             body:JSON.stringify(userData)
         })
 
-        window.location.href = "../SignIn/signin.html"
+        window.location.href = "http://localhost:5502/FrontEnd/SignIn/signin.html"
     }catch(error){
         console.log(error.message);
     }
